@@ -31,7 +31,7 @@
 
 @layer base {
   * {
-    @apply border-neutral-200;
+    @apply border-border;
   }
   body {
     @apply bg-sacred-50 text-neutral-800 font-sans;
