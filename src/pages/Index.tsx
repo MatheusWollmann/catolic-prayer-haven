@@ -1,3 +1,6 @@
+// src/pages/Index.tsx
+// Remova a importação do Header
+// import { Header } from "@/components/Header";
 import { PrayerCard } from "@/components/PrayerCard";
 
 const prayers = [
@@ -45,6 +48,7 @@ const prayers = [
 const Index = () => {
   return (
     <div className="min-h-screen bg-sacred-50">
+      {/* Remova o Header daqui */}
       <main className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-4xl mx-auto">
           <h1 className="section-title text-center mb-8">Orações Católicas</h1>

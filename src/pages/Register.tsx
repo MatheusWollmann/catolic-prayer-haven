@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword, AuthError } from "firebase/auth";
-import { auth, db } from "@/firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  AuthError,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth, db, googleProvider } from "@/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -56,6 +60,23 @@ const Register = () => {
     } catch (err) {
       const errorCode = (err as AuthError).code;
       setError(getErrorMessage(errorCode));
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      // Salvar informações adicionais no Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        displayName: user.displayName,
+      });
+
+      navigate("/"); // Redireciona para a página inicial
+    } catch (error) {
+      console.error("Erro ao fazer login com Google:", error);
     }
   };
 
@@ -170,6 +191,12 @@ const Register = () => {
             Registrar
           </button>
         </form>
+        <button
+          onClick={handleGoogleSignUp}
+          className="w-full py-3 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Registrar com Google
+        </button>
         <div className="mt-4 text-center">
           <a href="/login" className="text-blue-600 hover:underline">
             Já tem uma conta? Entrar
